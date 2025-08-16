@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-bands = [
+BANDS = [
 	{'id': 1, 'name': 'The Kinks', 'genre': 'Rock'},
 	{'id': 2, 'name': 'Aphex Twin', 'genre': 'Electronic'},
 	{'id': 3, 'name': 'Slowdive', 'genre': 'Shoegaze'},
@@ -11,7 +11,7 @@ bands = [
 
 @app.get('/bands')
 async def bands() -> list[dict]: # if there would be a list, fastapi will return an internal server error
-	return bands
+	return BANDS
 
 @app.get('/about')
 async def about() -> str:
