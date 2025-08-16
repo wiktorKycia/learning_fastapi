@@ -13,6 +13,7 @@ BANDS = [
 async def bands() -> list[dict]: # if there would be a list, fastapi will return an internal server error
 	return BANDS
 
+# @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
 @app.get('/bands/{band_id}')
 async def band(band_id: int) -> dict:
 	band = next((b for b in BANDS if b['id'] == band_id), None)
