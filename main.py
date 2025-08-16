@@ -9,9 +9,9 @@ bands = [
 	{'id': 4, 'name': 'Wu-Tang Clean', 'genre': 'Hip-Hop'},
 ]
 
-@app.get('/')
-async def index() -> dict[str, str]: # if there would be a list, fastapi will return an internal server error
-	return {'content': 'hello world!'}
+@app.get('/bands')
+async def bands() -> list[dict]: # if there would be a list, fastapi will return an internal server error
+	return bands
 
 @app.get('/about')
 async def about() -> str:
