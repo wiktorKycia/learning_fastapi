@@ -1,12 +1,8 @@
 from fastapi import FastAPI, HTTPException
-from enum import Enum
+from schemas import GenreURLChoices
 app = FastAPI()
 
-class GenreURLChoices(Enum):
-	ROCK = 'rock'
-	ELECTRONIC = 'electronic'
-	METAL = 'metal'
-	HIP_HOP = 'hip-hop'
+
 
 
 BANDS = [
