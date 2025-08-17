@@ -20,8 +20,8 @@ async def bands() -> list[Band]: # if there would be a list, fastapi will return
 
 # @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
 @app.get('/bands/{band_id}')
-async def band(band_id: int) -> dict:
-	band = next((b for b in BANDS if b['id'] == band_id), None)
+async def band(band_id: int) -> Band:
+	band = next((Band(**b) for b in BANDS if b['id'] == band_id), None)
 	if band is None:
 		raise HTTPException(status_code=404, detail='Band not found')
 
