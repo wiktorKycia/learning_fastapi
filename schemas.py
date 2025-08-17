@@ -17,4 +17,4 @@ class Band(BaseModel):
 	id: int
 	name: str
 	genre: str
-	albums: list[Album]
+	albums: list[Album] = [] # default value
