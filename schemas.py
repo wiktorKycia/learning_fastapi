@@ -9,4 +9,6 @@ class GenreURLChoices(Enum):
 
 
 class Band(BaseModel):
-	pass
+	id: int
+	name: str
+	genre: str
