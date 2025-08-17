@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from schemas import GenreURLChoices
+from schemas import GenreURLChoices, Band
 app = FastAPI()
 
 
@@ -13,8 +13,10 @@ BANDS = [
 ]
 
 @app.get('/bands')
-async def bands() -> list[dict]: # if there would be a list, fastapi will return an internal server error
-	return BANDS
+async def bands() -> list[Band]: # if there would be a list, fastapi will return an internal server error
+	return [
+		Band(**b) for b in BANDS
+	]
 
 # @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
 @app.get('/bands/{band_id}')
