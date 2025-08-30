@@ -8,6 +8,11 @@ class GenreURLChoices(Enum):
 	METAL = 'metal'
 	HIP_HOP = 'hip-hop'
 
+class GenreChoices(Enum):
+	ROCK = 'Rock'
+	ELECTRONIC = 'Electronic'
+	METAL = 'Metal'
+	HIP_HOP = 'Hip-Hop'
 
 class Album(BaseModel):
 	title: str
@@ -15,7 +20,7 @@ class Album(BaseModel):
 
 class BandBase(BaseModel):
 	name: str
-	genre: str
+	genre: GenreChoices
 	albums: list[Album] = [] # default value
 
 class BandCreate(BandBase):
