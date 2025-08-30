@@ -15,10 +15,12 @@ BANDS = [
 ]
 
 @app.get('/bands')
-async def bands() -> list[Band]: # if there would be a list, fastapi will return an internal server error
-	return [
-		Band(**b) for b in BANDS
-	]
+async def bands(genre: GenreURLChoices | None = None) -> list[Band]: # if there would be a list, fastapi will return an internal server error
+	if genre:
+		return [
+			Band(**b) for b in BANDS if b['genre'].lower() == genre.value
+		]
+	return [Band(**b) for b in BANDS]
 
 # @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
 @app.get('/bands/{band_id}')
