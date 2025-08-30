@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from schemas import GenreURLChoices, Band
+from schemas import GenreURLChoices, BandBase, BandCreate, BandWithID
 app = FastAPI()
 
 
@@ -15,18 +15,18 @@ BANDS = [
 ]
 
 @app.get('/bands')
-async def bands(genre: GenreURLChoices | None = None, has_albums: bool = False) -> list[Band]: # if there would be a list, fastapi will return an internal server error
-	bands_list: list[Band] = [Band(**b) for b in BANDS]
+async def bands(genre: GenreURLChoices | None = None, has_albums: bool = False) -> list[BandWithID]: # if there would be a list, fastapi will return an internal server error
+	bands_list: list[BandWithID] = [BandWithID(**b) for b in BANDS]
 	if has_albums:
 		bands_list = list(filter(lambda band: len(band.albums), bands_list))
 	if genre:
-		return list(filter(lambda band: band.genre == genre.value, bands_list))
+		bands_list = list(filter(lambda band: band.genre == genre.value, bands_list))
 	return bands_list
 
 # @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
 @app.get('/bands/{band_id}')
-async def band(band_id: int) -> Band:
-	band = next((Band(**b) for b in BANDS if b['id'] == band_id), None)
+async def band(band_id: int) -> BandWithID:
+	band = next((BandWithID(**b) for b in BANDS if b['id'] == band_id), None)
 	if band is None:
 		raise HTTPException(status_code=404, detail='Band not found')
 
