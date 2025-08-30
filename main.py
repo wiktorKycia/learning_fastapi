@@ -20,7 +20,7 @@ async def bands(genre: GenreURLChoices | None = None, has_albums: bool = False) 
 	if has_albums:
 		bands_list = list(filter(lambda band: len(band.albums), bands_list))
 	if genre:
-		bands_list = list(filter(lambda band: band.genre == genre.value, bands_list))
+		bands_list = list(filter(lambda band: band.genre.lower() == genre.value, bands_list))
 	return bands_list
 
 # @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
