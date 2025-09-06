@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Path, Query, Depends
 from schemas import GenreURLChoices, BandBase, BandCreate, Band, Album
 from typing import Annotated
-from sqlmodel import Session
+from sqlmodel import Session, select
 from contextlib import asynccontextmanager
 from db import init_db, get_session
 
@@ -65,6 +65,25 @@ BANDS = [
 # 	BANDS.append(band.model_dump())
 # 	return band
 
+@app.get('/bands')
+async def bands(
+		genre: GenreURLChoices | None = None,
+		has_albums: bool = False,
+		q: Annotated[str | None, Query(max_length=10)] = None, # returns an error (422) if the string is longer than 10
+		session: Session = Depends(get_session)
+) -> list[Band]: # if there would be a list, fastapi will return an internal server error
+
+	bands_list = session.exec(select(Band)).all()
+
+	if has_albums:
+		bands_list = list(filter(lambda band: len(band.albums), bands_list))
+	if genre:
+		bands_list = list(filter(lambda band: band.genre.value.lower() == genre.value, bands_list))
+	if q:
+		bands_list = [
+			b for b in bands_list if q.lower() in b.name.lower()
+		]
+	return bands_list
 
 
 # @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
