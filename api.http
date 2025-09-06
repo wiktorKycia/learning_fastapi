@@ -4,7 +4,16 @@ Content-Type: application/json
 {
   "name": "Boards of Canada",
   "genre": "ELECTRONIC",
-  "albums": []
+  "albums": [
+    {
+      "title": "abc",
+      "release_date": "2013-01-01"
+    },
+    {
+      "title": "cda",
+      "release_date": "1998-03-20"
+    }
+  ]
 }
 
 ###
