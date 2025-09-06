@@ -1,10 +1,16 @@
-from fastapi import FastAPI, HTTPException, Path, Query
+from fastapi import FastAPI, HTTPException, Path, Query, Depends
 from schemas import GenreURLChoices, BandBase, BandCreate, Band, Album
 from typing import Annotated
+from contextlib import asynccontextmanager
+from db import init_db, get_session
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+	init_db()
+	yield
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan) # lifespan triggers before or after the app is running
 
 
 
