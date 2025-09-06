@@ -67,8 +67,17 @@ BANDS = [
 
 
 
+# @app.get('/bands/{band_id}', status_code=206) # if the response is successful, it will return this code
+@app.get('/bands/{band_id}')
+async def band(
+		band_id: Annotated[int, Path(title="The band ID")],
+		session: Session = Depends(get_session)
+) -> Band:
+	band = session.get(Band, band_id)
+	if band is None:
+		raise HTTPException(status_code=404, detail='Band not found')
 
-
+	return band
 
 
 
